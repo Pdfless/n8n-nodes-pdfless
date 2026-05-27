@@ -9,7 +9,7 @@ import type {
 export class PdflessApi implements ICredentialType {
 	name = 'pdflessApi';
 	displayName = 'Pdfless API';
-	icon: Icon = { light: 'file:../icons/pdfless.svg', dark: 'file:../icons/pdfless.dark.png' };
+	icon: Icon = { light: 'file:../icons/pdfless.svg', dark: 'file:../icons/pdfless.dark.svg' };
 
 	documentationUrl =
 		'https://docs.pdfless.com/authentication';

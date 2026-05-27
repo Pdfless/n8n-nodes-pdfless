@@ -6,7 +6,7 @@ export class Pdfless implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Pdfless',
 		name: 'pdfless',
-		icon: { light: 'file:../../icons/pdfless.svg', dark: 'file:../../icons/pdfless.dark.png' },
+		icon: { light: 'file:../../icons/pdfless.svg', dark: 'file:../../icons/pdfless.dark.svg' },
 		group: ['input'],
 		version: 1,
 		subtitle: 'Generate PDF with Pdfless',
