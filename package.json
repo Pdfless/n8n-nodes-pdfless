@@ -7,6 +7,9 @@
 	"keywords": [
 		"n8n-community-node-package"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
 	"author": {
 		"name": "Nicolas Law-dune",
 		"email": "nicolas@pdfless.com"
