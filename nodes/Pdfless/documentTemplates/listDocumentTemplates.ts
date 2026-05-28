@@ -17,7 +17,7 @@ export async function listDocumentTemplates(
 	this: ILoadOptionsFunctions
 	): Promise<INodePropertyOptions[]> {
 
-	let responseData: DocumentTemplateItem[] = await pdflessApiRequest.call(this, 'GET', '/v1/document-templates', {
+	const responseData: DocumentTemplateItem[] = await pdflessApiRequest.call(this, 'GET', '/v1/document-templates', {
 		page: 1, 
 		pageSize: 100
 	});

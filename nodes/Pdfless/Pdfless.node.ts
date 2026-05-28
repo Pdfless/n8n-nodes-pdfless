@@ -1,4 +1,4 @@
-import { IExecuteFunctions, INodeExecutionData, NodeConnectionTypes, NodeOperationError, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
+import { IExecuteFunctions, INodeExecutionData, NodeApiError, NodeConnectionTypes, NodeOperationError, type INodeType, type INodeTypeDescription, type JsonObject } from 'n8n-workflow';
 import { listDocumentTemplates } from './documentTemplates/listDocumentTemplates';
 import { pdflessApiRequest } from './shared/transport';
 
@@ -32,15 +32,15 @@ export class Pdfless implements INodeType {
 		},
 		properties: [
 			{
-				displayName: 'Template',
-				name: 'templateId',
+				displayName: 'Template Name or ID',
+				name: 'template',
 				type: 'options',
 				typeOptions: {
 					loadOptionsMethod: 'listDocumentTemplates',
 				},
 				default: '',
 				required: true,
-				description: 'Select a template from your Pdfless workspace',
+				description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 				noDataExpression: false,
 			},
 			{
@@ -63,39 +63,42 @@ export class Pdfless implements INodeType {
 		},
 	};
 
-	// The function below is responsible for actually doing whatever this node
-	// is supposed to do. In this case, we're just appending the `myString` property
-	// with whatever the user has entered.
-	// You can make async calls and use `await`.
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
 
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-			const templateId = this.getNodeParameter('templateId', itemIndex) as string;
-			const payloadRaw = this.getNodeParameter('payload', itemIndex) as string;
-
-			let payload: object;
 			try {
-				payload =
-				typeof payloadRaw === 'string' ? JSON.parse(payloadRaw) : payloadRaw;
-			} catch {
-				throw new NodeOperationError(
-				this.getNode(),
-				'Payload must be valid JSON',
-				{ itemIndex: itemIndex },
-				);
+				const templateId = this.getNodeParameter('template', itemIndex) as string;
+				const payloadRaw = this.getNodeParameter('payload', itemIndex) as string;
+
+				let payload: object;
+				try {
+					payload = typeof payloadRaw === 'string' ? JSON.parse(payloadRaw) : payloadRaw;
+				} catch {
+					throw new NodeOperationError(
+						this.getNode(),
+						'Payload must be valid JSON',
+						{ itemIndex },
+					);
+				}
+
+				const response = await pdflessApiRequest.call(this, 'POST', '/v1/pdfs', {}, {
+					template_id: templateId,
+					payload: payload,
+				});
+
+				returnData.push({
+					json: response,
+					pairedItem: { item: itemIndex },
+				});
+			} catch (error) {
+				if (this.continueOnFail()) {
+					returnData.push({ json: items[itemIndex].json, pairedItem: { item: itemIndex }, error });
+					continue;
+				}
+				throw new NodeApiError(this.getNode(), error as JsonObject);
 			}
-
-			const response = await pdflessApiRequest.call(this, 'POST', '/v1/pdfs', {}, {
-				template_id: templateId,
-				payload: payload,
-			});
-
-			returnData.push({
-				json: response,
-				pairedItem: { item: itemIndex },
-			});
 		}
 
 		return [returnData];

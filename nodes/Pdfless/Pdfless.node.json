@@ -1,17 +1,17 @@
 {
-	"node": "n8n-nodes-example",
+	"node": "n8n-nodes-pdfless",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
 	"categories": ["Development", "Developer Tools"],
 	"resources": {
 		"credentialDocumentation": [
 			{
-				"url": "https://github.com/org/repo?tab=readme-ov-file#credentials"
+				"url": "https://github.com/Pdfless/n8n-nodes-pdfless?tab=readme-ov-file#credentials"
 			}
 		],
 		"primaryDocumentation": [
 			{
-				"url": "https://github.com/org/repo?tab=readme-ov-file"
+				"url": "https://github.com/Pdfless/n8n-nodes-pdfless?tab=readme-ov-file"
 			}
 		]
 	}
