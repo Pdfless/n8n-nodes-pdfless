@@ -13,7 +13,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Pdfless/n8n-nodes-pdfless.git"
+		"url": "git+https://github.com/Pdfless/n8n-nodes-pdfless.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",
