@@ -1,6 +1,6 @@
 {
 	"name": "@pdfless/n8n-nodes-pdfless",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "n8n community node for Pdfless PDF generation",
 	"license": "MIT",
 	"homepage": "https://pdfless.com",
