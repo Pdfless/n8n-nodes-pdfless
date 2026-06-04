@@ -23,13 +23,6 @@ export class Pdfless implements INodeType {
 				required: true,
 			}
 		],
-		requestDefaults: {
-			baseURL: 'https://api.pdfless.com',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		},
 		properties: [
 			{
 				displayName: 'Template Name or ID',
